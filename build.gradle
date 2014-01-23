@@ -18,9 +18,6 @@ allprojects {
         it.exclude group: 'commons-logging', module: 'commons-logging'
         it.exclude module: 'slf4j-simple'
     }
-
-    project.ext {
-    }
 }
 
 subprojects {
@@ -115,10 +112,6 @@ subprojects {
     }
 
     publish.dependsOn assemble
-}
-
-def isSnapshot(def project) {
-    project.version.endsWith('-SNAPSHOT')
 }
 
 task wrapper(type: Wrapper) {
