@@ -1,0 +1,126 @@
+
+buildscript {
+    repositories {
+        mavenCentral()
+    }
+
+    dependencies {
+    }
+}
+
+allprojects {
+
+    group = 'com.github.phasebash.jackson'
+
+    configurations.all {
+        it.exclude group: 'log4j', module: 'log4j'
+        it.exclude module: 'slf4j-log4j12'
+        it.exclude group: 'commons-logging', module: 'commons-logging'
+        it.exclude module: 'slf4j-simple'
+    }
+
+    project.ext {
+    }
+}
+
+subprojects {
+    apply plugin: 'base'
+    apply plugin: 'maven-publish'
+
+    apply plugin: 'groovy'
+    tasks.withType(GroovyCompile) {
+        sourceCompatibility = project.javaVersion
+        targetCompatibility = project.javaVersion
+
+        groovyOptions.encoding = 'UTF-8'
+        groovyOptions.fork = true
+        groovyOptions.optimizationOptions.indy = true
+
+        options.fork = true
+        options.forkOptions.executable = "${project.javaJdkHome}/bin/javac"
+        options.encoding = 'UTF-8'
+    }
+
+    apply plugin: 'codenarc'
+    codenarc {
+        configFile = file("${rootProject.projectDir}/config/codenarc/codenarc.groovy")
+        toolVersion = project.codenarcToolVersion
+    }
+
+    dependencies {
+        testCompile(
+            [group: 'org.codehaus.groovy', name: 'groovy-all', version: project.groovyVersion, classifier: project.groovyClassifier],
+
+            [group: 'org.hamcrest', name: 'hamcrest-core', version: project.hamcrestVersion],
+            [group: 'org.hamcrest', name: 'hamcrest-library', version: project.hamcrestVersion],
+
+            [group: 'org.slf4j', name: 'log4j-over-slf4j', version: project.slf4jVersion],
+            [group: 'org.slf4j', name: 'jcl-over-slf4j', version: project.slf4jVersion],
+            [group: 'ch.qos.logback', name: 'logback-classic', version: project.logbackVersion],
+        )
+        testCompile(group: 'org.spockframework', name: 'spock-core', version: project.spockVersion) {
+            exclude module: 'groovy-all'
+            exclude module: 'junit-dep'
+        }
+        testCompile(group: 'org.gmock', name: 'gmock', version: project.gmockVersion) {
+            exclude module: 'groovy-all'
+        }
+        testCompile(group: 'junit', name: 'junit', version: project.junitVersion) {
+            exclude module: 'hamcrest-core'
+        }
+    }
+
+    task sourcesJar(type: Jar, dependsOn: classes) {
+        from sourceSets.main.allSource
+    }
+
+    task javadocJar(type: Jar, dependsOn: groovydoc) {
+        from javadoc.destinationDir
+    }
+
+    publishing {
+        publications {
+            mainJar(MavenPublication) {
+                from components.java
+
+                artifact sourcesJar {
+                    classifier "sources"
+                }
+
+                artifact javadocJar {
+                    classifier "javadoc"
+                }
+            }
+        }
+    }
+
+    publish.dependsOn check
+
+    repositories {
+        mavenCentral()
+        maven {
+            url "http://svn.dev.oclc.org:10000/archiva/repository/snapshots"
+        }
+        maven {
+            url "http://artifactap01exdu.dev.oclc.org:10000/archiva/repository/releases"
+        }
+        maven {
+            url "http://svn.dev.oclc.org:10000/archiva/repository/internal"
+        }
+    }
+
+    publishing {
+        repositories {
+        }
+    }
+
+    publish.dependsOn assemble
+}
+
+def isSnapshot(def project) {
+    project.version.endsWith('-SNAPSHOT')
+}
+
+task wrapper(type: Wrapper) {
+    gradleVersion = project.gradleVersion
+}

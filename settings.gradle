@@ -1,0 +1,3 @@
+rootProject.name = 'groovy-beans-with-jackson'
+
+include 'groovy-beans-with-jackson-deserializers'

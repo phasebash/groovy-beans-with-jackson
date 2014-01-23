@@ -1,0 +1,8 @@
+description = 'A collection of Jackson Deserializers which help out with Groovy Beans.'
+
+dependencies {
+    compile(
+        [group: 'org.codehaus.groovy', name: 'groovy-all', version: project.groovyVersion, classifier: project.groovyClassifier],
+        [group: 'com.fasterxml.jackson.core', name: 'jackson-databind', version: project.jacksonVersion]
+    )
+}
