@@ -31,10 +31,8 @@ subprojects {
 
         groovyOptions.encoding = 'UTF-8'
         groovyOptions.fork = true
-        groovyOptions.optimizationOptions.indy = true
 
         options.fork = true
-        options.forkOptions.executable = "${project.javaJdkHome}/bin/javac"
         options.encoding = 'UTF-8'
     }
 
