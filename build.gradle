@@ -53,10 +53,6 @@ subprojects {
             [group: 'org.slf4j', name: 'jcl-over-slf4j', version: project.slf4jVersion],
             [group: 'ch.qos.logback', name: 'logback-classic', version: project.logbackVersion],
         )
-        testCompile(group: 'org.spockframework', name: 'spock-core', version: project.spockVersion) {
-            exclude module: 'groovy-all'
-            exclude module: 'junit-dep'
-        }
         testCompile(group: 'org.gmock', name: 'gmock', version: project.gmockVersion) {
             exclude module: 'groovy-all'
         }
@@ -93,15 +89,6 @@ subprojects {
 
     repositories {
         mavenCentral()
-        maven {
-            url "http://svn.dev.oclc.org:10000/archiva/repository/snapshots"
-        }
-        maven {
-            url "http://artifactap01exdu.dev.oclc.org:10000/archiva/repository/releases"
-        }
-        maven {
-            url "http://svn.dev.oclc.org:10000/archiva/repository/internal"
-        }
     }
 
     publishing {

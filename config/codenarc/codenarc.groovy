@@ -281,7 +281,8 @@ ruleset {
     AbstractClassName
     ClassName
     ClassNameSameAsFilename
-    ConfusingMethodName
+    // Disabled b/c we cannot change the names of our super class methods.
+    //ConfusingMethodName
 
     // we want to have a method starting with /create.*/
     //FactoryMethodName
