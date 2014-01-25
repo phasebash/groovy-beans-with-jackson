@@ -42,6 +42,25 @@ subprojects {
         toolVersion = project.codenarcToolVersion
     }
 
+    apply plugin: 'jacoco'
+    jacocoTestReport {
+        reports {
+            xml.enabled false
+            csv.enabled false
+            html.enabled true
+//            html.destination "${buildDir}/reports/jacocoHtml"
+        }
+    }
+    test {
+        jacoco {
+            append = false
+            destinationFile = file("$buildDir/jacoco/jacocoTest.exec")
+            classDumpFile = file("$buildDir/jacoco/classpathdumps")
+        }
+    }
+
+    check.dependsOn jacocoTestReport
+
     dependencies {
         testCompile(
             [group: 'org.codehaus.groovy', name: 'groovy-all', version: project.groovyVersion, classifier: project.groovyClassifier],

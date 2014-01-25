@@ -15,17 +15,12 @@ class ImmutableBeanDeserializerModifier extends BeanDeserializerModifier {
     BeanDeserializerBuilder updateBuilder(DeserializationConfig config,
                                           BeanDescription beanDesc,
                                           BeanDeserializerBuilder builder) {
-
         BeanDescription beanDescription = config.introspectDirectClassAnnotations(beanDesc.type)
 
         if (beanDescription.classAnnotations.get(groovy.transform.Immutable)) {
             builder.setValueInstantiator(new GroovyImmutableStdValueInstantiator(config, beanDesc.class))
         }
 
-//        if (beanDesc.beanClass.annotations.contains(groovy.transform.Immutable)) {
-//            builder.setValueInstantiator(new GroovyImmutableStdValueInstantiator(config, beanDesc.class))
-//        }
-
-        return super.updateBuilder(config, beanDesc, builder)
+        super.updateBuilder(config, beanDesc, builder)
     }
 }

@@ -10,7 +10,6 @@ import groovy.transform.Immutable
 /**
  * A Jackson Module which makes Jackson able to instantiate Groovy @Immutable beans.
  */
-@Immutable
 class GroovyImmutableModule extends Module {
 
     private final Version version = new Version(0, 1, 0, null,

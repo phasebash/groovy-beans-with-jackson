@@ -11,7 +11,7 @@ class GroovyImmutableStdValueInstantiator extends StdValueInstantiator {
 
     private static final Map EMPTY_MAP = [:].asImmutable() as HashMap
 
-    Class<?> clazz
+    private final Class<?> clazz
 
     GroovyImmutableStdValueInstantiator(DeserializationConfig config, Class<?> valueType) {
         super(config, valueType)

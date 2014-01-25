@@ -215,9 +215,7 @@ ruleset {
     ExplicitStackInstantiation
     ExplicitTreeSetInstantiation
     GStringAsMapKey
-
-    // @Value attributes
-    //GStringExpressionWithinString
+    GStringExpressionWithinString
 
     GetterMethodCouldBeProperty
     GroovyLangImmutable
@@ -318,19 +316,22 @@ ruleset {
     //SerializableClassMustDefineSerialVersionUID
 
     // rulesets/size.xml
-    AbcComplexity   // DEPRECATED: Use the AbcMetric rule instead. Requires the GMetrics jar
     AbcMetric   // Requires the GMetrics jar
-    ClassSize
+    ClassSize(
+        maxLines: 200
+    )
     CrapMetric   // Requires the GMetrics jar and a Cobertura coverage file
     CyclomaticComplexity(
-        maxMethodComplexity: 15,
-        maxClassComplexity: 15,
-        maxClassAverageMethodComplexity: 10
+        maxMethodComplexity: 8,
+        maxClassComplexity: 8,
+        maxClassAverageMethodComplexity: 5
     )   // Requires the GMetrics jar
     MethodCount(
         maxMethods: 12
     )
-    MethodSize
+    MethodSize(
+        maxLines: 20
+    )
     NestedBlockDepth(
         maxNestedBlockDepth: 3
     )
@@ -358,8 +359,8 @@ ruleset {
     UnnecessaryFinalOnPrivateMethod
     UnnecessaryFloatInstantiation
     UnnecessaryGString
-    //have to call getter as a full name when mocking
-    //UnnecessaryGetter
+
+    UnnecessaryGetter
     UnnecessaryIfStatement
     UnnecessaryInstanceOfCheck
     UnnecessaryInstantiationToGetClass
@@ -373,10 +374,7 @@ ruleset {
     UnnecessaryPackageReference
     UnnecessaryParenthesesForMethodCallWithClosure
     UnnecessaryPublicModifier
-
-    // we'd like to keep returns
-    //UnnecessaryReturnKeyword
-
+    UnnecessaryReturnKeyword
     UnnecessarySelfAssignment
     UnnecessarySemicolon
     UnnecessaryStringInstantiation
