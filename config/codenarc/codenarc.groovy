@@ -322,15 +322,16 @@ ruleset {
     )
     CrapMetric   // Requires the GMetrics jar and a Cobertura coverage file
     CyclomaticComplexity(
-        maxMethodComplexity: 8,
-        maxClassComplexity: 8,
+        maxMethodComplexity: 10,
+        maxClassComplexity: 10,
         maxClassAverageMethodComplexity: 5
     )   // Requires the GMetrics jar
     MethodCount(
         maxMethods: 12
     )
     MethodSize(
-        maxLines: 20
+        maxLines: 20,
+        ignoreMethodNames: 'should*'
     )
     NestedBlockDepth(
         maxNestedBlockDepth: 3
@@ -360,7 +361,8 @@ ruleset {
     UnnecessaryFloatInstantiation
     UnnecessaryGString
 
-    UnnecessaryGetter
+    // need to disable for GMock.
+    // UnnecessaryGetter
     UnnecessaryIfStatement
     UnnecessaryInstanceOfCheck
     UnnecessaryInstantiationToGetClass
@@ -374,7 +376,7 @@ ruleset {
     UnnecessaryPackageReference
     UnnecessaryParenthesesForMethodCallWithClosure
     UnnecessaryPublicModifier
-    UnnecessaryReturnKeyword
+    // UnnecessaryReturnKeyword
     UnnecessarySelfAssignment
     UnnecessarySemicolon
     UnnecessaryStringInstantiation

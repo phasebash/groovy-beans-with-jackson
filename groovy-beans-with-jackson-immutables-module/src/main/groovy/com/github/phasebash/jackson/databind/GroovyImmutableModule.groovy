@@ -3,7 +3,6 @@ package com.github.phasebash.jackson.databind
 import com.fasterxml.jackson.core.Version
 import com.fasterxml.jackson.databind.Module
 import com.github.phasebash.jackson.databind.deser.ImmutableBeanDeserializerModifier
-import groovy.transform.Immutable
 
 
 
