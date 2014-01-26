@@ -5,6 +5,12 @@ dependencies {
         [group: 'org.codehaus.groovy', name: 'groovy-all', version: project.groovyVersion, classifier: project.groovyClassifier],
 
         [group: 'com.fasterxml.jackson.core', name: 'jackson-databind', version: project.jacksonVersion],
-        [group: 'com.fasterxml.jackson.core', name: 'jackson-core', version: project.jacksonVersion]
+        [group: 'com.fasterxml.jackson.core', name: 'jackson-core', version: project.jacksonVersion],
+
+        [group: 'org.slf4j', name: 'slf4j-api', version: project.slf4jVersion]
+    )
+
+    testCompile(
+        [group: 'ch.qos.logback', name: 'logback-classic', version: project.logbackVersion],
     )
 }

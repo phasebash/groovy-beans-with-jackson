@@ -29,5 +29,4 @@ class GroovyImmutableModule extends Module {
     void setupModule(Module.SetupContext context) {
         context.addBeanDeserializerModifier(new ImmutableBeanDeserializerModifier())
     }
-
 }

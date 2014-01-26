@@ -50,7 +50,7 @@ class ImmutableBeanDeserializerModifierTest {
 
     @Test
     void 'should augment builder when BeanDescription matches criteria'() {
-        final Class<?> annotatedClass = Object
+        final Class<?> annotatedClass = HashMap
         mockAnnotations.get(groovy.transform.Immutable).returns(true).once()
         mockBeanDesc.getClassAnnotations().returns(mockAnnotations).once()
 
