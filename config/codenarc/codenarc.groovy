@@ -323,7 +323,7 @@ ruleset {
     CrapMetric   // Requires the GMetrics jar and a Cobertura coverage file
     CyclomaticComplexity(
         maxMethodComplexity: 10,
-        maxClassComplexity: 10,
+        maxClassComplexity: 15,
         maxClassAverageMethodComplexity: 5
     )   // Requires the GMetrics jar
     MethodCount(

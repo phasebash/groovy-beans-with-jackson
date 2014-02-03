@@ -4,7 +4,10 @@ import com.fasterxml.jackson.annotation.JsonProperty
 import com.fasterxml.jackson.databind.JsonMappingException
 import com.fasterxml.jackson.databind.Module
 import com.fasterxml.jackson.databind.ObjectMapper
+import com.github.phasebash.jackson.databind.deser.std.GroovyImmutableStdValueInstantiator
+import org.gmock.WithGMock
 import org.junit.Before
+import org.junit.Ignore
 import org.junit.Test
 
 import groovy.transform.Immutable
@@ -12,6 +15,7 @@ import groovy.transform.Immutable
 /**
  * Integration-level testing of the GroovyImmutableModule and the Jackson ObjectMapper.
  */
+@WithGMock
 class GroovyImmutableModuleTest {
 
     // the module under test.
@@ -91,6 +95,25 @@ class GroovyImmutableModuleTest {
     @Test(expected = JsonMappingException)
     void 'should die when deserilizing non-Immutable without HashMap constructor and without annotations'() {
         registered().readValue(json([a: 'one', b: 'two']), NoMapConstructorLacksAnnotations)
+    }
+
+    @Test
+    @Ignore
+    // TODO: correct mocks to assert the modifier is consulted twice.  Not sure why twice, I would have expected once.
+    void 'should only register the ValueInstantiator once given multiple transactions on a single ObjectMapper'() {
+        ObjectMapper mapper = registered()
+
+        def instantiator = mock(GroovyImmutableStdValueInstantiator, constructor(match { true }, match { true }))
+//        instantiator.canCreateUsingDefault().times(3)
+        instantiator.canCreateUsingDelegate().returns(false).times(1)
+//        instantiator.toString().returns("mocked string").once()
+        instantiator.canCreateObjectWith().returns(false).times(1)
+
+        play {
+            100.times {
+                mapper.readValue(json([a: 'foo']), Nested)
+            }
+        }
     }
 
     private json(def map) {

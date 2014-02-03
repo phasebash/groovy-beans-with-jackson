@@ -1,23 +1,38 @@
+apply plugin: 'release'
 
 buildscript {
     repositories {
         mavenCentral()
+        maven {
+            url 'http://maven.tmatesoft.com/content/repositories/releases/'
+        }
     }
 
     dependencies {
+        classpath(
+            [group: 'au.com.ish.gradle', name: 'release', version: project.releasePluginVersion]
+        )
     }
 }
 
 allprojects {
-
-    group = 'com.github.phasebash.jackson'
-
     configurations.all {
         it.exclude group: 'log4j', module: 'log4j'
         it.exclude module: 'slf4j-log4j12'
         it.exclude group: 'commons-logging', module: 'commons-logging'
         it.exclude module: 'slf4j-simple'
     }
+
+    release {
+        failOnSnapshotDependencies = true
+        scm = 'git'
+//        username = project.scmUserName
+//        password = project.scmPassword
+    }
+
+    group = 'com.github.phasebash.jackson'
+    version = release.projectVersion
+
 }
 
 subprojects {
@@ -90,6 +105,12 @@ subprojects {
         from javadoc.destinationDir
     }
 
+    publish.dependsOn build
+
+    repositories {
+        mavenCentral()
+    }
+
     publishing {
         publications {
             mainJar(MavenPublication) {
@@ -104,20 +125,33 @@ subprojects {
                 }
             }
         }
-    }
-
-    publish.dependsOn check
-
-    repositories {
-        mavenCentral()
-    }
-
-    publishing {
         repositories {
+            if (isSnapshot(project)) {
+                maven {
+                    name 'snapshots'
+                    url 'https://oss.sonatype.org/content/repositories/snapshots/'
+                    credentials {
+                        username = project.sonatypeUsername
+                        password = project.sonatypePassword
+                    }
+                }
+            } else {
+                maven {
+                    name 'releases'
+                    url 'https://oss.sonatype.org/service/local/staging/deploy/maven2/'
+                    credentials {
+                        username = project.sonatypeUsername
+                        password = project.sonatypePassword
+                    }
+                }
+            }
         }
     }
 
-    publish.dependsOn assemble
+}
+
+def isSnapshot(def project) {
+    project.version.endsWith('-SNAPSHOT')
 }
 
 task wrapper(type: Wrapper) {

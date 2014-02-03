@@ -36,8 +36,7 @@ class ImmutableBeanDeserializerModifier extends BeanDeserializerModifier {
         if (beanDesc.classAnnotations.get(groovy.transform.Immutable)) {
             AnnotatedClass classInfo = beanDesc.classInfo
 
-            LOG.trace("Updating builder '{}' with new ValueInsantiator of type '{}' " +
-                      "to instantiate @Immutable class '{}'.", builder, GroovyImmutableStdValueInstantiator, classInfo)
+            LOG.trace("Updating builder '{} to instantiate @Immutable class '{}'.", builder, classInfo)
 
             builder.setValueInstantiator(new GroovyImmutableStdValueInstantiator(config, classInfo.annotated))
         }
