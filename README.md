@@ -79,6 +79,6 @@ Feel free to submit an issue ticket through github or contact me directly.  I wi
 
 ## License ##
 The [groovy-beans-with-jackson](https://github.com/phasebash/groovy-beans-with-jackson)
-has been released under [Apache 2.0](https://github.com/phasebash/jsdoc3-maven-plugin/blob/master/LICENSE.md)
+has been released under [Apache 2.0](https://github.com/phasebash/groovy-beans-with-jackson/blob/master/LICENSE.md)
 as per all it's dependencies.
 
