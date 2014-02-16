@@ -1,19 +1,16 @@
-apply plugin: 'release'
+
 
 buildscript {
     repositories {
         mavenCentral()
-        maven {
-            url 'http://maven.tmatesoft.com/content/repositories/releases/'
-        }
+        jcenter()
     }
 
     dependencies {
-        classpath(
-            [group: 'au.com.ish.gradle', name: 'release', version: project.releasePluginVersion]
-        )
+        classpath 'org.gradle.api.plugins:gradle-nexus-plugin:0.7'
     }
 }
+
 
 allprojects {
     configurations.all {
@@ -23,23 +20,15 @@ allprojects {
         it.exclude module: 'slf4j-simple'
     }
 
-    release {
-        failOnSnapshotDependencies = true
-        scm = 'git'
-//        username = project.scmUserName
-//        password = project.scmPassword
-    }
-
-    group = 'com.github.phasebash.jackson'
-    version = release.projectVersion
-
+    group = 'com.phasebash.jackson'
+    version = '1.0'
 }
+
 
 subprojects {
     apply plugin: 'base'
-    apply plugin: 'maven-publish'
-
     apply plugin: 'groovy'
+
     tasks.withType(GroovyCompile) {
         sourceCompatibility = project.javaVersion
         targetCompatibility = project.javaVersion
@@ -97,61 +86,11 @@ subprojects {
         }
     }
 
-    task sourcesJar(type: Jar, dependsOn: classes) {
-        from sourceSets.main.allSource
-    }
-
-    task javadocJar(type: Jar, dependsOn: groovydoc) {
-        from javadoc.destinationDir
-    }
-
-    publish.dependsOn build
-
     repositories {
         mavenCentral()
     }
 
-    publishing {
-        publications {
-            mainJar(MavenPublication) {
-                from components.java
-
-                artifact sourcesJar {
-                    classifier "sources"
-                }
-
-                artifact javadocJar {
-                    classifier "javadoc"
-                }
-            }
-        }
-        repositories {
-            if (isSnapshot(project)) {
-                maven {
-                    name 'snapshots'
-                    url 'https://oss.sonatype.org/content/repositories/snapshots/'
-                    credentials {
-                        username = project.sonatypeUsername
-                        password = project.sonatypePassword
-                    }
-                }
-            } else {
-                maven {
-                    name 'releases'
-                    url 'https://oss.sonatype.org/service/local/staging/deploy/maven2/'
-                    credentials {
-                        username = project.sonatypeUsername
-                        password = project.sonatypePassword
-                    }
-                }
-            }
-        }
-    }
-
-}
-
-def isSnapshot(def project) {
-    project.version.endsWith('-SNAPSHOT')
+    apply from: '../publish.gradle'
 }
 
 task wrapper(type: Wrapper) {

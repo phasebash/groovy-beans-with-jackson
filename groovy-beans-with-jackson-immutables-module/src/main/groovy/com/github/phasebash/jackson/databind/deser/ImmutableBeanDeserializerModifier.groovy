@@ -6,6 +6,7 @@ import com.fasterxml.jackson.databind.deser.BeanDeserializerBuilder
 import com.fasterxml.jackson.databind.deser.BeanDeserializerModifier
 import com.fasterxml.jackson.databind.introspect.AnnotatedClass
 import com.github.phasebash.jackson.databind.deser.std.GroovyImmutableStdValueInstantiator
+import groovy.transform.Immutable
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 
@@ -32,15 +33,24 @@ class ImmutableBeanDeserializerModifier extends BeanDeserializerModifier {
     BeanDeserializerBuilder updateBuilder(DeserializationConfig config,
                                           BeanDescription beanDesc,
                                           BeanDeserializerBuilder builder) {
-
-        if (beanDesc.classAnnotations.get(groovy.transform.Immutable)) {
+        if (is_immutable(beanDesc)) {
             AnnotatedClass classInfo = beanDesc.classInfo
 
             LOG.trace("Updating builder '{} to instantiate @Immutable class '{}'.", builder, classInfo)
 
-            builder.setValueInstantiator(new GroovyImmutableStdValueInstantiator(config, classInfo.annotated))
+            enable_value_instantiator(builder, config, classInfo)
         }
 
         super.updateBuilder(config, beanDesc, builder)
+    }
+
+    private static boolean is_immutable(BeanDescription beanDesc) {
+        beanDesc.classAnnotations.get(Immutable)
+    }
+
+    private static void enable_value_instantiator(BeanDeserializerBuilder builder,
+                                                  DeserializationConfig config,
+                                                  AnnotatedClass classInfo) {
+        builder.valueInstantiator = new GroovyImmutableStdValueInstantiator(config, classInfo.annotated)
     }
 }

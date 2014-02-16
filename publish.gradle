@@ -1,0 +1,41 @@
+apply plugin: 'nexus'
+
+modifyPom {
+    project {
+        name 'groovy-beans-with-jackson'
+        description 'Implementations of the Jackson API to better support Groovy Beans without annotations, including groovy.transform.Immutable beans.'
+        url 'https://github.com/phasebash/groovy-beans-with-jackson'
+        packaging 'jar'
+        organization {
+            name 'Brandon Zeeb'
+            url 'http://www.phasebash.com'
+        }
+        licenses {
+            license {
+                name 'Apache License'
+                url 'http://www.apache.org/licenses/LICENSE-2.0'
+                distribution 'repo'
+            }
+        }
+        scm {
+            url 'https://github.com/phasebash/groovy-beans-with-jackson'
+            connection 'scm:git:https://github.com/phasebash/groovy-beans-with-jackson.git'
+            developerConnection 'scm:git@github.com:phasebash/groovy-beans-with-jackson.git'
+        }
+        developers {
+            developer {
+                id 'phasebash'
+                name 'Brandon Zeeb'
+            }
+        }
+    }
+}
+
+nexus {
+    attachJavadoc = true
+    attachSources = true
+    attachTests = true
+    sign = true
+    repositoryUrl = 'https://oss.sonatype.org/service/local/staging/deploy/maven2'
+    snapshotRepositoryUrl = 'https://oss.sonatype.org/content/repositories/snapshots'
+}
