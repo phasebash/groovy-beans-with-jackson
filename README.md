@@ -64,15 +64,13 @@ You may make use of this module with the following coordinates:
     <dependency>
         <groupId>com.github.phasebash.jackson</groupId>
         <artifactId>groovy-beans-with-jackson-immutables-module</artifactId>
-        <version>master-SNAPSHOT</version>
+        <version>1.0</version>
     </dependency>
 
 ### Gradle ###
     compile(
-        [groupId: 'com.github.phasebash.jackson', name: 'groovy-beans-with-jackson-immutables-module', version: 'master-SNAPSHOT']
+        [groupId: 'com.github.phasebash.jackson', name: 'groovy-beans-with-jackson-immutables-module', version: '1.0']
     )
-
-A 1.0 release is on the way.
 
 ## Questions, Feedback? ##
 Feel free to submit an issue ticket through github or contact me directly.  I will help you.
