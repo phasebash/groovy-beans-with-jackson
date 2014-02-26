@@ -62,14 +62,14 @@ HashMap constructors.
 You may make use of this module with the following coordinates:
 ### Maven ###
     <dependency>
-        <groupId>com.github.phasebash.jackson</groupId>
+        <groupId>com.phasebash.jackson</groupId>
         <artifactId>groovy-beans-with-jackson-immutables-module</artifactId>
         <version>1.0</version>
     </dependency>
 
 ### Gradle ###
     compile(
-        [groupId: 'com.github.phasebash.jackson', name: 'groovy-beans-with-jackson-immutables-module', version: '1.0']
+        [groupId: 'com.phasebash.jackson', name: 'groovy-beans-with-jackson-immutables-module', version: '1.0']
     )
 
 ## Questions, Feedback? ##
